@@ -32,42 +32,83 @@ export async function generateStaticParams() {
     { toolSlug: 'image-size-checker' },
     { toolSlug: 'rotate-pdf' },
     { toolSlug: 'delete-pages' },
-    { toolSlug: 'reorder-pages' }
+    { toolSlug: 'reorder-pages' },
+    { toolSlug: 'pdf-to-docx' },
+    { toolSlug: 'pdf-compressor' },
+    { toolSlug: 'pdf-joiner' },
+    { toolSlug: 'pdf-splitter' },
+    { toolSlug: 'pdf-unlocker' },
+    { toolSlug: 'pdf-password-protector' }
   ];
 }
+
+const ALIASES: { [key: string]: string } = {
+  'pdf-to-docx': '/pdf-to-word',
+  'pdf-compressor': '/compress-pdf',
+  'pdf-joiner': '/merge-pdf',
+  'pdf-splitter': '/split-pdf',
+  'pdf-unlocker': '/unlock-pdf',
+  'pdf-password-protector': '/protect-pdf'
+};
 
 // Dynamic Metadatas for maximum SEO scoring
 export async function generateMetadata(
   { params }: PageProps
 ): Promise<Metadata> {
   const resolvedParams = await params;
-  const tool = toolsData.find((t) => t.path === `/${resolvedParams.toolSlug}`);
+  const slug = resolvedParams.toolSlug;
+  const targetPath = ALIASES[slug] || `/${slug}`;
+  const tool = toolsData.find((t) => t.path === targetPath);
   if (!tool) return {};
 
+  let seoTitle = tool.seoTitle;
+  let seoDesc = tool.seoDesc;
+  if (slug === 'pdf-to-docx') {
+    seoTitle = "Convert PDF to DOCX Online Free - PDFGo";
+    seoDesc = "Convert PDF to DOCX documents online free with PDFGo. Extremely accurate conversion preserves original formatting, layouts, and tables.";
+  } else if (slug === 'pdf-compressor') {
+    seoTitle = "PDF Compressor Online - Shrink PDF Free - PDFGo";
+    seoDesc = "Compress PDF files online to reduce file size without losing quality using PDFGo. Optimize and shrink PDF structures instantly for free.";
+  } else if (slug === 'pdf-joiner') {
+    seoTitle = "PDF Joiner Online - Combine PDF Files Free - PDFGo";
+    seoDesc = "Join PDF files online easily and for free with PDFGo. Combine multiple PDF documents into one PDF file in seconds.";
+  } else if (slug === 'pdf-splitter') {
+    seoTitle = "PDF Splitter Online - Extract Pages Free - PDFGo";
+    seoDesc = "Split PDF files online free. Extract specific page ranges or save all PDF pages as separate PDF documents using PDFGo.";
+  } else if (slug === 'pdf-unlocker') {
+    seoTitle = "PDF Unlocker Online - Remove PDF Password Free - PDFGo";
+    seoDesc = "Unlock password-protected PDF files online free. Remove PDF restrictions and copy/edit blocks instantly using PDFGo.";
+  } else if (slug === 'pdf-password-protector') {
+    seoTitle = "PDF Password Protector - Encrypt PDF Free - PDFGo";
+    seoDesc = "Protect PDF files with strong passwords online free. Encrypt PDF files and prevent unauthorized copy or print actions.";
+  }
+
   return {
-    title: tool.seoTitle,
-    description: tool.seoDesc,
+    title: seoTitle,
+    description: seoDesc,
     alternates: {
-      canonical: `https://pdfgo-app.vercel.app${tool.path}`
+      canonical: `https://pdfgo-app.vercel.app/${slug}`
     },
     openGraph: {
-      title: tool.seoTitle,
-      description: tool.seoDesc,
-      url: `https://pdfgo-app.vercel.app${tool.path}`,
+      title: seoTitle,
+      description: seoDesc,
+      url: `https://pdfgo-app.vercel.app/${slug}`,
       siteName: "PDFGo",
       type: "website"
     },
     twitter: {
       card: "summary_large_image",
-      title: tool.seoTitle,
-      description: tool.seoDesc
+      title: seoTitle,
+      description: seoDesc
     }
   };
 }
 
 export default async function ToolPage({ params }: PageProps) {
   const resolvedParams = await params;
-  const tool = toolsData.find((t) => t.path === `/${resolvedParams.toolSlug}`);
+  const slug = resolvedParams.toolSlug;
+  const targetPath = ALIASES[slug] || `/${slug}`;
+  const tool = toolsData.find((t) => t.path === targetPath);
   if (!tool) {
     notFound();
   }
@@ -77,7 +118,7 @@ export default async function ToolPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": tool.name,
-    "url": `https://pdfgo-app.vercel.app${tool.path}`,
+    "url": `https://pdfgo-app.vercel.app/${slug}`,
     "description": tool.seoDesc,
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
@@ -116,7 +157,7 @@ export default async function ToolPage({ params }: PageProps) {
         "@type": "ListItem",
         "position": 2,
         "name": tool.name,
-        "item": `https://pdfgo-app.vercel.app${tool.path}`
+        "item": `https://pdfgo-app.vercel.app/${slug}`
       }
     ]
   };

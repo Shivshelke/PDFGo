@@ -20,7 +20,21 @@ export async function GET() {
     lastMod: new Date().toISOString()
   }));
 
-  const allUrls = [...staticUrls, ...toolUrls, ...blogUrls];
+  const aliasPaths = [
+    '/pdf-to-docx',
+    '/pdf-compressor',
+    '/pdf-joiner',
+    '/pdf-splitter',
+    '/pdf-unlocker',
+    '/pdf-password-protector'
+  ];
+
+  const aliasUrls = aliasPaths.map(path => ({
+    url: `${baseUrl}${path}`,
+    lastMod: new Date().toISOString()
+  }));
+
+  const allUrls = [...staticUrls, ...toolUrls, ...aliasUrls, ...blogUrls];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
