@@ -2,7 +2,7 @@ export async function GET() {
   const robots = `User-agent: *
 Allow: /
 
-Sitemap: https://pdfgo.com/sitemap.xml
+Sitemap: https://pdfgo-app.vercel.app/sitemap.xml
 `;
 
   return new Response(robots, {

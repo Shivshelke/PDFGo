@@ -2,7 +2,7 @@ import { toolsData } from '@/data/tools';
 import { blogPosts } from '@/data/blog';
 
 export async function GET() {
-  const baseUrl = "https://pdfgo.com";
+  const baseUrl = "https://pdfgo-app.vercel.app";
 
   const staticUrls = [
     { url: baseUrl, lastMod: new Date().toISOString() },

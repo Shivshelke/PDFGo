@@ -28,12 +28,12 @@ export async function generateMetadata(
     title: post.seoTitle,
     description: post.seoDesc,
     alternates: {
-      canonical: `https://pdfgo.com/blog/${post.slug}`
+      canonical: `https://pdfgo-app.vercel.app/blog/${post.slug}`
     },
     openGraph: {
       title: post.seoTitle,
       description: post.seoDesc,
-      url: `https://pdfgo.com/blog/${post.slug}`,
+      url: `https://pdfgo-app.vercel.app/blog/${post.slug}`,
       siteName: "PDFGo Blog",
       type: "article",
       publishedTime: post.date,
@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
       "name": "PDFGo",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://pdfgo.com/logo.png"
+        "url": "https://pdfgo-app.vercel.app/logo.png"
       }
     },
     "description": post.excerpt
@@ -97,19 +97,19 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://pdfgo.com"
+        "item": "https://pdfgo-app.vercel.app"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Blog",
-        "item": "https://pdfgo.com/blog"
+        "item": "https://pdfgo-app.vercel.app/blog"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": post.title,
-        "item": `https://pdfgo.com/blog/${post.slug}`
+        "item": `https://pdfgo-app.vercel.app/blog/${post.slug}`
       }
     ]
   };

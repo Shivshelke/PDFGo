@@ -48,12 +48,12 @@ export async function generateMetadata(
     title: tool.seoTitle,
     description: tool.seoDesc,
     alternates: {
-      canonical: `https://pdfgo.com${tool.path}`
+      canonical: `https://pdfgo-app.vercel.app${tool.path}`
     },
     openGraph: {
       title: tool.seoTitle,
       description: tool.seoDesc,
-      url: `https://pdfgo.com${tool.path}`,
+      url: `https://pdfgo-app.vercel.app${tool.path}`,
       siteName: "PDFGo",
       type: "website"
     },
@@ -77,7 +77,7 @@ export default async function ToolPage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": tool.name,
-    "url": `https://pdfgo.com${tool.path}`,
+    "url": `https://pdfgo-app.vercel.app${tool.path}`,
     "description": tool.seoDesc,
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
@@ -110,13 +110,13 @@ export default async function ToolPage({ params }: PageProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://pdfgo.com"
+        "item": "https://pdfgo-app.vercel.app"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": tool.name,
-        "item": `https://pdfgo.com${tool.path}`
+        "item": `https://pdfgo-app.vercel.app${tool.path}`
       }
     ]
   };
