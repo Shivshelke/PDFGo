@@ -51,8 +51,12 @@ export default function Header() {
         {/* Logo */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-blue-500 text-white shadow-md shadow-indigo-100 group-hover:scale-105 transition duration-200">
-              <FileCode className="h-5 w-5" />
+            <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-indigo-950 group-hover:scale-105 transition duration-200 shadow-sm border border-indigo-900/10">
+              <img
+                src="/logo.png"
+                alt="PDFGo Logo Icon"
+                className="h-full w-full object-cover scale-102"
+              />
             </div>
             <span className="text-xl font-bold tracking-tight text-slate-900">
               PDF<span className="text-indigo-600 font-extrabold">Go</span>
