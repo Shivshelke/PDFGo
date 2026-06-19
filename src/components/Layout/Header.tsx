@@ -1,12 +1,40 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FileCode, Search, Shield, ChevronDown, Sparkles, User, Settings, ArrowRight, Menu, X } from 'lucide-react';
+import { FileCode, Search, Shield, ChevronDown, Sparkles, User, Settings, ArrowRight, Menu, X, Download } from 'lucide-react';
 import { toolsData } from '@/data/tools';
+import { useToast } from '@/components/UI/Toast';
 
 export default function Header() {
+  const { showToast } = useToast();
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setDeferredPrompt(null);
+      }
+    } else {
+      showToast("To install PDFGo, click the install icon (🖥️/⬇️) in your address bar or select 'Add to Home Screen' in browser options.", "info");
+    }
+  };
 
   const categories = [
     { id: 'organize', label: 'Organize PDF', color: 'text-rose-500' },
@@ -92,6 +120,13 @@ export default function Header() {
 
         {/* Action CTAs */}
         <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={handleInstallClick}
+            className="flex items-center gap-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 px-4 py-2.5 text-sm font-bold text-indigo-600 transition shadow-sm hover:scale-102 duration-150"
+          >
+            <Download className="h-4 w-4" />
+            <span>Install App</span>
+          </button>
           <Link
             href="/pricing"
             className="flex items-center gap-1.5 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-bold text-white hover:bg-slate-800 transition shadow-sm hover:scale-102 duration-150"
@@ -153,11 +188,18 @@ export default function Header() {
               </Link>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-2 flex flex-col gap-2">
+              <button
+                onClick={() => { handleInstallClick(); setMobileMenuOpen(false); }}
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-indigo-50 border border-indigo-100 py-2.5 text-sm font-bold text-indigo-600 hover:bg-indigo-100 transition shadow-sm"
+              >
+                <Download className="w-4 h-4" />
+                <span>Install App</span>
+              </button>
               <Link
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-indigo-600 py-2.5 text-sm font-bold text-white hover:bg-indigo-500 transition shadow-md shadow-indigo-100"
+                className="w-full flex items-center justify-center gap-1.5 rounded-xl bg-slate-900 py-2.5 text-sm font-bold text-white hover:bg-slate-800 transition shadow-md"
               >
                 <Sparkles className="w-4 h-4 text-amber-300" />
                 <span>Get Premium</span>
